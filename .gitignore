@@ -1,5 +1,6 @@
 coverage
-db
+db/default
+db/e2e_test
 dist
 drizzle/**/*.sql
 drizzle/**/*.json
