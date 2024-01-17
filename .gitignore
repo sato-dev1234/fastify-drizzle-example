@@ -1,0 +1,6 @@
+coverage
+db
+dist
+drizzle/**/*.sql
+drizzle/**/*.json
+node_modules

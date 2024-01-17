@@ -1,0 +1,10 @@
+{
+  "moduleFileExtensions": ["js", "ts"],
+  "preset": "ts-jest",
+  "testMatch": ["**/*.e2e-spec.ts"],
+  "moduleNameMapper": {
+    "@/(.*)$": "<rootDir>/../src/$1",
+    "~/(.*)$": "<rootDir>/$1"
+  },
+  "setupFilesAfterEnv": ["./jest-e2e.setup.ts"]
+}

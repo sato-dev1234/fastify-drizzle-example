@@ -1,0 +1,9 @@
+{
+  "moduleFileExtensions": ["js", "ts"],
+  "preset": "ts-jest",
+  "testMatch": ["**/*.spec.ts"],
+  "moduleNameMapper": {
+    "@/(.*)$": "<rootDir>/src/$1",
+    "~/(.*)$": "<rootDir>/test/$1"
+  }
+}

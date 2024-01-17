@@ -1,0 +1,85 @@
+{
+  "env": {
+    "node": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-base",
+    "airbnb-typescript/base",
+    "prettier" // ESLintとPrettierが衝突するので追加
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": { "project": "./tsconfig.json", "extraFileExtensions": [".yml"]},
+  "plugins": ["prettier", "unused-imports", "drizzle"],
+  "rules": {
+    "prettier/prettier": 2,
+    "no-underscore-dangle": 0,
+    "no-irregular-whitespace": ["error", { "skipStrings": false, "skipComments": true, "skipRegExps": true, "skipTemplates": true } ], // 文字列リテラル・コメント・正規表現・テンプレートリテラルでは全角スペースを許可する。
+    "@typescript-eslint/no-use-before-define": ["error", { "ignoreTypeReferences": false } ], // 定義前の変数の使用を許可しない。
+    "@typescript-eslint/no-floating-promises": ["error", { "ignoreVoid": true } ], // Promiseの戻り値にawaitをつける。voidの場合は無視する。
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true } ], // or文内でのみ単項演算子(++,--)を許可。
+    "@typescript-eslint/no-unused-vars": "off", // unused-imports/no-unused-varsを使用するのでoff。
+    "unused-imports/no-unused-imports": "error", // 未使用のimportを許可しない。
+    "unused-imports/no-unused-vars": ["warn", { "argsIgnorePattern": "^_", "varsIgnorePattern": "^_", "caughtErrorsIgnorePattern": "^_" }], // 未使用の変数の制御。_から始まる未使用変数のみ許可。
+    "eqeqeq": "off", //  == を許容する。
+    "import/prefer-default-export": "off", // 単体のexportを許可。
+    "import/extensions": "off", // importの拡張子の有無のチェックをしない。
+    // importの整列。
+    "import/order":[
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", "parent", "sibling", "index" ],
+        "newlines-between": "always", // import文の間に改行を入れる
+        "alphabetize": { "order": "asc", "caseInsensitive": true }, // アルファベット昇順で整列。大文字小文字の区別なし。
+        "pathGroups": [],
+        "pathGroupsExcludedImportTypes": ["react"]
+      }
+    ],
+    "@typescript-eslint/naming-convention": ["error",
+      {
+        "selector": ["variable"],
+        "format": ["camelCase", "UPPER_CASE"],
+        "leadingUnderscore": "allow"
+      },
+      {
+        "selector": ["method", "function"],
+        "format": ["camelCase"]
+      },
+      {
+        "selector": "parameter",
+        "format": ["camelCase"],
+        "leadingUnderscore": "allow"
+      },
+      {
+        "selector": ["enumMember"],
+        "format": ["UPPER_CASE"]
+      },
+      {
+        "selector": ["interface", "typeAlias", "enum", "class"],
+        "format": ["PascalCase"]
+      }
+    ],
+    "drizzle/enforce-delete-with-where": ["error", { "drizzleObjectName": ["db"] }],
+    "drizzle/enforce-update-with-where": ["error", { "drizzleObjectName": ["db"] }]
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.*route.ts"
+      ],
+      "rules": {
+        "class-methods-use-this": "off"
+      }
+    },
+    {
+      "files": [
+        "**/*.*spec*.ts",
+        "**/test/*.setup.ts"
+      ],
+      "rules": {
+        "drizzle/enforce-delete-with-where": "off", // テストごとにテーブルをtruncateするのでoff。
+        "import/no-mutable-exports": "off" // テスト時にDBクライアントを生成するのでoff。
+      }
+    }
+  ]
+}
