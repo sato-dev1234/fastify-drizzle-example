@@ -6,7 +6,6 @@ import * as schema from "@/infrastructure/db/schema";
 
 declare module "fastify" {
   interface FastifyInstance {
-    container: Container;
     db: NodePgDatabase<typeof schema>;
     pg: Client;
     config: {

@@ -21,11 +21,10 @@ const containerPlugin: FastifyPluginAsync = async (
       .toDynamicValue(() => () => new targetClass(fastify))
       .inSingletonScope();
   });
-  fastify.decorate("container", container);
   fastify.decorate(
     "getFactory",
     <TService>(targetClass: { name: string }): TService => {
-      const factory = fastify.container.get<interfaces.Factory<TService>>(
+      const factory = container.get<interfaces.Factory<TService>>(
         Symbol.for(targetClass.name),
       );
       return factory(fastify) as TService;
