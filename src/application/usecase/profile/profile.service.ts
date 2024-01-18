@@ -23,8 +23,8 @@ import { Contact, NewContact } from "@/infrastructure/db/contact.schema ";
 import { user, contact } from "@/infrastructure/db/schema";
 import * as schema from "@/infrastructure/db/schema";
 import { UserEntity, User } from "@/infrastructure/db/user.schema";
-import MultiTableRepositoryImpl from "@/infrastructure/repository/multi.table.repository";
-import UserRepositoryImpl from "@/infrastructure/repository/user.reposirory";
+import MultiTableRepositoryImpl from "@/infrastructure/repositories/multi.table.repository";
+import UserRepositoryImpl from "@/infrastructure/repositories/user.reposirory";
 import { TYPES, classToSymbol } from "@/plugins/container/types";
 
 @injectable()
