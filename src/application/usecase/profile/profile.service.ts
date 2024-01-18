@@ -4,8 +4,8 @@ import { PgUpdateSetSource } from "drizzle-orm/pg-core";
 import { errorCodes } from "fastify";
 import { inject, injectable } from "inversify";
 
-import MultiTableRepository from "@/domain/repository/multi.table.repository";
-import UserRepository from "@/domain/repository/user.reposirory";
+import MultiTableRepository from "@/domain/repositories/multi.table.repository";
+import UserRepository from "@/domain/repositories/user.reposirory";
 import {
   ContactInsertSchema,
   ContactUpdateSchema,

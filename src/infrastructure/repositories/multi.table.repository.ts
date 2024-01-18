@@ -10,7 +10,7 @@ import { PgTable, PgTransaction, PgUpdateSetSource } from "drizzle-orm/pg-core";
 import { injectable } from "inversify";
 import { QueryResult } from "pg";
 
-import MultiTableRepository from "@/domain/repository/multi.table.repository";
+import MultiTableRepository from "@/domain/repositories/multi.table.repository";
 import * as schema from "@/infrastructure/db/schema";
 
 @injectable()

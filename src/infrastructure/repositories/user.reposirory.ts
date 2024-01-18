@@ -3,7 +3,7 @@ import { injectable } from "inversify";
 
 import BaseRepository from "./base.repository";
 
-import UserRepository from "@/domain/repository/user.reposirory";
+import UserRepository from "@/domain/repositories/user.reposirory";
 import {
   ProfileSelectSchema,
   toUserSelectSchema,
