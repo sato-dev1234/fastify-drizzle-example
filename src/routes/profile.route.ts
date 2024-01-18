@@ -39,11 +39,6 @@ class ProfileRoute {
       },
     );
 
-    fastify.get("/getAll", async (_request, reply) => {
-      const profile: ProfileSelectSchema[] = await profileController.getAll();
-      return reply.code(200).send({ profile });
-    });
-
     fastify.get(
       "/get",
       {
@@ -58,6 +53,11 @@ class ProfileRoute {
         return reply.code(200).send({ profile });
       },
     );
+
+    fastify.get("/getAll", async (_request, reply) => {
+      const profile: ProfileSelectSchema[] = await profileController.getAll();
+      return reply.code(200).send({ profile });
+    });
 
     fastify.put(
       "/update",
