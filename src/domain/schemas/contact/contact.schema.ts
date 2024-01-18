@@ -6,23 +6,23 @@ import {
   japanPhoneNumberType,
 } from "../base.schema";
 
-export const contactColumns = {
+export const contactItems = {
   phoneNumber: japanPhoneNumberType,
   email: nullableString(z.string().email()),
 };
 
 export const contactInsertSchema = z.object({
-  ...contactColumns,
+  ...contactItems,
 });
 
 export const contactUpdateSchema = z.object({
   ...primaryKeyForBody,
-  ...contactColumns,
+  ...contactItems,
 });
 
 export const contactSelectSchema = z.object({
   ...primaryKeyForBody,
-  ...contactColumns,
+  ...contactItems,
 });
 
 export type ContactInsertSchema = z.infer<typeof contactInsertSchema>;

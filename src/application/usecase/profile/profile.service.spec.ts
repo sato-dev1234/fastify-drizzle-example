@@ -32,7 +32,7 @@ const contactSchemaSecond = {
   email: "john2@example.com",
 };
 
-const baseColumns = {
+const baseItems = {
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: null,
@@ -112,19 +112,19 @@ const contactInsertSchemaSecond: ContactInsertSchema = contactSchemaSecond;
 const userEntity: UserEntity = {
   id: 1,
   ...userInsertSchema,
-  ...baseColumns,
+  ...baseItems,
 };
 const contactEntityFirst: ContactEntity = {
   id: 1,
   userId: 1,
   ...contactInsertSchemaFirst,
-  ...baseColumns,
+  ...baseItems,
 };
 const contactEntitySecond: ContactEntity = {
   id: 2,
   userId: 1,
   ...contactInsertSchemaSecond,
-  ...baseColumns,
+  ...baseItems,
 };
 
 describe("ProfileService", () => {

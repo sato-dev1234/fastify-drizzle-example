@@ -21,7 +21,7 @@ const contactSchemaSecond = {
   email: "john2@example.com",
 };
 
-const baseColumns = {
+const baseItems = {
   createdAt: new Date(),
   updatedAt: new Date(),
   deletedAt: null,
@@ -73,19 +73,19 @@ describe("UserRepositoryImpl", () => {
     const userEntity: UserEntity = {
       id: 1,
       ...userSchema,
-      ...baseColumns,
+      ...baseItems,
     };
     const contactEntityFirst: ContactEntity = {
       id: 1,
       userId: 1,
       ...contactSchemaFirst,
-      ...baseColumns,
+      ...baseItems,
     };
     const contactEntitySecond: ContactEntity = {
       id: 2,
       userId: 1,
       ...contactSchemaSecond,
-      ...baseColumns,
+      ...baseItems,
     };
     it.each([
       {
@@ -145,19 +145,19 @@ describe("UserRepositoryImpl", () => {
     const userEntity: UserEntity = {
       id: 1,
       ...userSchema,
-      ...baseColumns,
+      ...baseItems,
     };
     const contactEntityFirst: ContactEntity = {
       id: 1,
       userId: 1,
       ...contactSchemaFirst,
-      ...baseColumns,
+      ...baseItems,
     };
     const contactEntitySecond: ContactEntity = {
       id: 2,
       userId: 1,
       ...contactSchemaSecond,
-      ...baseColumns,
+      ...baseItems,
     };
     describe("正常系", () => {
       it.each([
