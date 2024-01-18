@@ -12,6 +12,7 @@ import {
   profileInsertSchema,
   profileUpdateSchema,
 } from "@/domain/schemas/profile/profile.schema";
+import { classToSymbol } from "@/plugins/container/types";
 
 class ProfileRoute {
   public prefixRoute = "/profile";
@@ -21,7 +22,9 @@ class ProfileRoute {
     _options: FastifyPluginOptions,
   ): Promise<void> {
     const profileController: ProfileController =
-      fastify.getFactory(ProfileController);
+      fastify.container.get<ProfileController>(
+        classToSymbol(ProfileController),
+      );
 
     fastify.post(
       "/create",

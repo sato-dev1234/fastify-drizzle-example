@@ -1,18 +1,11 @@
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
-import {
-  FastifyInstance,
-  FastifyPluginOptions,
-  FastifyPluginAsync,
-} from "fastify";
-import { fastifyPlugin } from "fastify-plugin";
+import { FastifyInstance } from "fastify";
 import { Client } from "pg";
 
 import * as schema from "@/infrastructure/db/schema";
+import { TYPES } from "@/plugins/container/types";
 
-const dbPlugin: FastifyPluginAsync = async (
-  fastify: FastifyInstance,
-  _opts: FastifyPluginOptions,
-): Promise<void> => {
+export const setupDb = async (fastify: FastifyInstance): Promise<void> => {
   const client = new Client({
     connectionString: fastify.config.DATABASE_URL,
   });
@@ -22,7 +15,10 @@ const dbPlugin: FastifyPluginAsync = async (
     const drizzleClient: NodePgDatabase<typeof schema> = drizzle(fastify.pg, {
       schema,
     });
-    fastify.decorate("db", drizzleClient);
+    fastify.container
+      .bind(TYPES.DB)
+      .toDynamicValue(() => drizzleClient)
+      .inSingletonScope();
   } catch (error) {
     fastify.log.error(error);
     throw error;
@@ -32,5 +28,3 @@ const dbPlugin: FastifyPluginAsync = async (
     await fastify.pg.end();
   });
 };
-
-export default fastifyPlugin(dbPlugin, "4.x");

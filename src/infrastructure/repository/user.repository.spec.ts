@@ -1,5 +1,4 @@
 import "reflect-metadata";
-import * as nodePotgres from "drizzle-orm/node-postgres";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 
 import UserRepositoryImpl from "./user.reposirory";
@@ -8,8 +7,6 @@ import { ContactSelectSchema } from "@/domain/schemas/contact/contact.schema";
 import { UserSelectSchema } from "@/domain/schemas/user/user.schema";
 import { ContactEntity } from "@/infrastructure/db/contact.schema ";
 import { UserEntity } from "@/infrastructure/db/user.schema";
-
-jest.mock("drizzle-orm/node-postgres");
 
 const userSchema = {
   firstName: "John",
@@ -42,19 +39,16 @@ const mockQuery = {
 const mockDb: NodePgDatabase<Record<string, unknown>> = {
   query: mockQuery,
 } as unknown as NodePgDatabase<Record<string, unknown>>;
-const nodePotgresMock = nodePotgres as jest.Mocked<typeof nodePotgres>;
-
-const app = {
-  pg: jest.fn(),
-} as any;
 
 describe("UserRepositoryImpl", () => {
   /* service */
   let userRepositoryImpl: UserRepositoryImpl;
 
   beforeEach(() => {
-    nodePotgresMock.drizzle.mockReturnValue(mockDb);
-    userRepositoryImpl = new UserRepositoryImpl(app);
+    userRepositoryImpl = new UserRepositoryImpl();
+    Object.defineProperty(userRepositoryImpl, "db", {
+      value: mockDb,
+    });
   });
 
   afterEach(() => {

@@ -18,8 +18,6 @@ import {
 import { ContactEntity, NewContact } from "@/infrastructure/db/contact.schema ";
 import { contact, user } from "@/infrastructure/db/schema";
 import { UserEntity } from "@/infrastructure/db/user.schema";
-import MultiTableRepositoryImpl from "@/infrastructure/repository/multi.table.repository";
-import UserRepositoryImpl from "@/infrastructure/repository/user.reposirory";
 
 const userSchema = {
   firstName: "John",
@@ -57,19 +55,6 @@ const contactCondition = (id: number) =>
 
 const db = {
   transaction: jest.fn((callback) => callback({})),
-} as any;
-
-const app = {
-  db,
-  getFactory: jest.fn().mockImplementation((symbol: any) => {
-    if (symbol === MultiTableRepositoryImpl) {
-      return mockMultiTableRepository;
-    }
-    if (symbol === UserRepositoryImpl) {
-      return mockUserRepository;
-    }
-    throw Error("想定していないリポジトリが指定されました。");
-  }),
 } as any;
 
 const testInsertCall = (index: number, table: PgTable, entity: any) => {
@@ -147,7 +132,16 @@ describe("ProfileService", () => {
   let profileService: ProfileService;
 
   beforeEach(() => {
-    profileService = new ProfileService(app);
+    profileService = new ProfileService();
+    Object.defineProperty(profileService, "db", {
+      value: db,
+    });
+    Object.defineProperty(profileService, "multiTableRepository", {
+      value: mockMultiTableRepository,
+    });
+    Object.defineProperty(profileService, "userRepository", {
+      value: mockUserRepository,
+    });
   });
   afterEach(() => {
     jest.clearAllMocks();

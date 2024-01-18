@@ -1,16 +1,14 @@
 import { InferInsertModel, SQL } from "drizzle-orm";
-import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { PgTable, PgUpdateSetSource } from "drizzle-orm/pg-core";
-import { FastifyInstance } from "fastify";
+import { inject, injectable } from "inversify";
 
 import * as schema from "@/infrastructure/db/schema";
+import { TYPES } from "@/plugins/container/types";
 
+@injectable()
 abstract class BaseRepository<TTable extends PgTable> {
-  protected db: NodePgDatabase<typeof schema>;
-
-  constructor(fastify: FastifyInstance) {
-    this.db = drizzle(fastify.pg, { schema });
-  }
+  @inject(TYPES.DB) protected db: NodePgDatabase<typeof schema>;
 
   async insert(table: TTable, entity: InferInsertModel<TTable>) {
     return this.db.insert(table).values(entity);

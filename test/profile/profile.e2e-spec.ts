@@ -2,11 +2,11 @@ import { eq } from "drizzle-orm";
 import { NodePgDatabase, drizzle } from "drizzle-orm/node-postgres";
 import request from "supertest";
 
-import App from "@/app";
-import { setup } from "@/app.setup";
 import { ValidationError } from "@/domain/error/validation.error";
 import { ContactInsertSchema } from "@/domain/schemas/contact/contact.schema";
 import { UserInsertSchema } from "@/domain/schemas/user/user.schema";
+import App from "@/factories/app";
+import { setup } from "@/factories/app.setup";
 import { ContactEntity, NewContact } from "@/infrastructure/db/contact.schema ";
 import { contact, user } from "@/infrastructure/db/schema";
 import { UserEntity } from "@/infrastructure/db/user.schema";

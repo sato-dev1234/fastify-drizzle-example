@@ -1,5 +1,5 @@
-import { ClusterApplication } from "./application.cluster";
-import { applicationFactory } from "./application.factory";
+import { ClusterApplication } from "./cluster";
+import { applicationFactory } from "./factories/application.factory";
 
 const clusterApp = new ClusterApplication(applicationFactory);
 

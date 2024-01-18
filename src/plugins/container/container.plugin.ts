@@ -5,7 +5,7 @@ import {
   FastifyPluginAsync,
 } from "fastify";
 import { fastifyPlugin } from "fastify-plugin";
-import { Container, interfaces } from "inversify";
+import { Container } from "inversify";
 
 import targets from "@/plugins/container";
 
@@ -18,18 +18,11 @@ const containerPlugin: FastifyPluginAsync = async (
     /* eslint new-cap: "off" */
     container
       .bind(Symbol.for(targetClass.name))
-      .toDynamicValue(() => () => new targetClass(fastify))
+      .to(targetClass)
       .inSingletonScope();
   });
-  fastify.decorate(
-    "getFactory",
-    <TService>(targetClass: { name: string }): TService => {
-      const factory = container.get<interfaces.Factory<TService>>(
-        Symbol.for(targetClass.name),
-      );
-      return factory(fastify) as TService;
-    },
-  );
+
+  fastify.decorate("container", container);
 };
 
 export default fastifyPlugin(containerPlugin, "4.x");

@@ -1,8 +1,8 @@
 import { and, eq, isNull } from "drizzle-orm";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import { PgUpdateSetSource } from "drizzle-orm/pg-core";
-import { FastifyInstance, errorCodes } from "fastify";
-import { injectable } from "inversify";
+import { errorCodes } from "fastify";
+import { inject, injectable } from "inversify";
 
 import MultiTableRepository from "@/domain/repository/multi.table.repository";
 import UserRepository from "@/domain/repository/user.reposirory";
@@ -25,20 +25,18 @@ import * as schema from "@/infrastructure/db/schema";
 import { UserEntity, User } from "@/infrastructure/db/user.schema";
 import MultiTableRepositoryImpl from "@/infrastructure/repository/multi.table.repository";
 import UserRepositoryImpl from "@/infrastructure/repository/user.reposirory";
+import { TYPES, classToSymbol } from "@/plugins/container/types";
 
 @injectable()
 class ProfileService {
-  protected db: NodePgDatabase<typeof schema>;
+  @inject(TYPES.DB)
+  private db: NodePgDatabase<typeof schema>;
 
+  @inject(classToSymbol(MultiTableRepositoryImpl))
   private readonly multiTableRepository: MultiTableRepository;
 
+  @inject(classToSymbol(UserRepositoryImpl))
   private readonly userRepository: UserRepository;
-
-  constructor(fastify: FastifyInstance) {
-    this.db = fastify.db;
-    this.multiTableRepository = fastify.getFactory(MultiTableRepositoryImpl);
-    this.userRepository = fastify.getFactory(UserRepositoryImpl);
-  }
 
   async create(profileInsertSchema: ProfileInsertSchema): Promise<void> {
     const userSchema: UserInsertSchema = profileInsertSchema.user;

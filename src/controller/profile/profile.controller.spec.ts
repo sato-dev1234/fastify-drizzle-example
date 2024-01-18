@@ -20,10 +20,6 @@ const mockProfileService = {
   delete: jest.fn(),
 };
 
-const app = {
-  getFactory: jest.fn().mockImplementation(() => mockProfileService),
-} as any;
-
 const userSchema = {
   firstName: "John",
   lastName: "Doe",
@@ -44,7 +40,10 @@ describe("ProfileController", () => {
   let profileController: ProfileController;
 
   beforeEach(() => {
-    profileController = new ProfileController(app);
+    profileController = new ProfileController();
+    Object.defineProperty(profileController, "profileService", {
+      value: mockProfileService,
+    });
   });
 
   afterEach(() => {

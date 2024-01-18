@@ -1,12 +1,10 @@
 import fastifyEnv from "@fastify/env";
 import { FastifyInstance } from "fastify";
 
-import {
-  costomizePreHandler,
-  costomizeErrorHandler,
-  localizeValidationError,
-} from "./domain/error/error.handler";
-import { envOptions } from "./infrastructure/config/env";
+import { setupDb } from "./db/db.setup";
+import setupErrorHandler from "./error/error.handler";
+
+import { envOptions } from "@/infrastructure/config/env";
 
 const registerPlugins = async (fastify: FastifyInstance, plugins: any) => {
   await fastify.register(fastifyEnv, envOptions());
@@ -30,9 +28,8 @@ export const setup = async (
   plugins: any,
   routes: any,
 ): Promise<void> => {
-  costomizePreHandler(fastify);
-  costomizeErrorHandler(fastify);
-  await localizeValidationError();
+  await setupErrorHandler(fastify);
   await registerPlugins(fastify, plugins);
+  await setupDb(fastify);
   await registerRoutes(fastify, routes);
 };

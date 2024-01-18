@@ -4,9 +4,9 @@ import { ZodError, ZodIssue, z } from "zod";
 import { zodI18nMap } from "zod-i18n-map";
 import translation from "zod-i18n-map/locales/ja/zod.json";
 
-import { ValidationError } from "./validation.error";
+import { ValidationError } from "@/domain/error/validation.error";
 
-export const costomizePreHandler = (fastify: FastifyInstance) => {
+const costomizePreHandler = (fastify: FastifyInstance) => {
   fastify.addHook("preHandler", (request, _reply, done) => {
     if (request.body) {
       request.log.info({ body: request.body }, "parsed body");
@@ -15,7 +15,7 @@ export const costomizePreHandler = (fastify: FastifyInstance) => {
   });
 };
 
-export const costomizeErrorHandler = (fastify: FastifyInstance) => {
+const costomizeErrorHandler = (fastify: FastifyInstance) => {
   fastify.setErrorHandler(async (error: FastifyError, request, reply) => {
     request.log.error(error);
     if (error instanceof ZodError) {
@@ -37,7 +37,7 @@ export const costomizeErrorHandler = (fastify: FastifyInstance) => {
   });
 };
 
-export const localizeValidationError = async () => {
+const localizeValidationError = async () => {
   await i18next.init({
     lng: "ja",
     resources: {
@@ -46,3 +46,11 @@ export const localizeValidationError = async () => {
   });
   z.setErrorMap(zodI18nMap);
 };
+
+const setupErrorHandler = async (fastify: FastifyInstance) => {
+  costomizePreHandler(fastify);
+  costomizeErrorHandler(fastify);
+  await localizeValidationError();
+};
+
+export default setupErrorHandler;

@@ -2,7 +2,7 @@
 import cluster from "cluster";
 import * as os from "os";
 
-import { ApplicationFactory } from "./application.factory";
+import { ApplicationFactory } from "@/factories/application.factory";
 
 export class ClusterApplication {
   constructor(private readonly applicationFactory: ApplicationFactory) {}
